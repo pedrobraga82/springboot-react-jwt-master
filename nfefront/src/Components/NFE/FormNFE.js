@@ -20,6 +20,7 @@ useEffect(() => {
   let vetordados = {};
   let arraydados = [{}];
 
+  alert(username)
   if (texto != null) {
 
     if (texto != "") { 
@@ -68,10 +69,10 @@ useEffect(() => {
  
 const handleSubmit = (event) => {
 
-           axios.get(`http://localhost:8082/nfe/${cnpj}`)
+           axios.get(`http://localhost:8080/nfe/${cnpj}`)
         .then(function (response) {
             SetTexto(response.data);
-
+             alert(response.data)
           })
           .catch(function (error) {
             console.log(error);
@@ -91,17 +92,15 @@ const handleSubmit = (event) => {
         return (
             <div>
                 <Header />
-
-
-               
-                <div class="container my-4">
+        
+                <div className="container my-4">
                     <h4>Pesquisar NFE por CNPJ</h4>
 
-                    <div class="input-field w-25">
+                    <div className="input-field w-25">
                         <form onSubmit={handleSubmit}>
                             <input type="text" placeholder="Pesquisar por CNPJ"  value={cnpj} onChange={handleChange} />        
-                            <button class="btn waves-effect waves-light" type="submit" >Pesquisar
-                                    <i class="material-icons right">send</i>
+                            <button className="btn waves-effect waves-light" type="submit" >Pesquisar
+                                    <i className="material-icons right">send</i>
                             </button>
                         </form>  
                     </div>

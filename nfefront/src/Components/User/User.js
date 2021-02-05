@@ -16,12 +16,9 @@ export default function User() {
     const [ie,SetIe] = useState("");
     const [endereco,SetEndereco] = useState("");
     const [role,SetRole] = useState("USER");
-    const [arquivo,SetArquivo] = useState(undefined);
-    let formData = new FormData();
+
 
     const     onChange = (e) => {
-
-        e.preventDefault();
 
         switch(e.target.name) {
 
@@ -39,25 +36,20 @@ export default function User() {
                   break;              
             case "endereco":
                SetEndereco(e.target.value)
-                break;     
-            case "arquivo":
-               formData.append("file",e.target.files[0])
-                break;     
-                         
+                break;              
+                            
             default:
                 break;
+
+
         }
-
-
 
     }
 
 
-    const onClick = (e) => {
+    const onClick = () => {
 
-        SetArquivo(formData.get("file"))
-
-         let user = {
+        let user = {
             empresa,
             password,
             role,
@@ -65,8 +57,7 @@ export default function User() {
             password,
             ie,
             endereco,
-            username:"admin40",
-            arquivo
+            username:"admin40"
         }
 
      
@@ -83,9 +74,10 @@ export default function User() {
             .catch((err) => {
 
                 alert("Erro ao cadastrar usuário " + err)
-            }) 
-
-
+            })
+/*            .catch((err) => {
+             alert('Erro ao cadastrar usuário')
+           })  } */
 
 
     }
@@ -105,7 +97,6 @@ export default function User() {
                         <TextField variant="outlined" type="text" label="CNPJ" fullWidth margin="normal" name="cnpj" value={cnpj} onChange={onChange}/>
                         <TextField variant="outlined" type="text" label="IE" fullWidth margin="normal" name="ie" value={ie} onChange={onChange}/>
                         <TextField variant="outlined" type="text" label="Endereço" fullWidth margin="normal" name="endereco" value={endereco} onChange={onChange}/>
-                        <TextField variant="outlined" type="file" label="Arquivo" fullWidth margin="normal" name="arquivo" value={arquivo} onChange={onChange}/>
 
  
                         <Button variant="contained" color="secondary" onClick={onClick}>Cadastrar</Button>

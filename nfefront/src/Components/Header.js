@@ -25,7 +25,11 @@ export default function Header() {
     const classes = useStyles();
 
     return (
+
+       
+
             <AppBar position="static">
+          
             <Toolbar>
                 <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                 <MenuIcon />
@@ -38,26 +42,8 @@ export default function Header() {
             </AppBar>
     )
 
-    }
-
-
-  /*   return (
-        <div>
-            
-             <nav>
-                <div class="navbar-dark bg-blue" color="blue">
-                    
-                <a href="#" class="brand-logo center">Visualização NFE</a>
-                <ul id="nav-mobile" class="left hide-on-med-and-down">
-
-              
-                </ul>
-                </div>
-            </nav>
-        
-        </div>
-    )
 }
 
 
- */
+  
+  

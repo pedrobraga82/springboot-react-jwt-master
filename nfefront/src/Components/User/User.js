@@ -16,8 +16,8 @@ export default function User() {
     const [ie,SetIe] = useState("");
     const [endereco,SetEndereco] = useState("");
     const [role,SetRole] = useState("USER");
-    const [arquivo,SetArquivo] = useState(undefined);
-    let formData = new FormData();
+//    const [arquivo,SetArquivo] = useState(undefined);
+//    let formData = new FormData();
 
     const     onChange = (e) => {
 
@@ -40,10 +40,10 @@ export default function User() {
             case "endereco":
                SetEndereco(e.target.value)
                 break;     
-            case "arquivo":
-               formData.append("file",e.target.files[0])
+  /*           case "arquivo":
+               formData.append("file",e.target.files[0],`${cnpj}.txt`)
                 break;     
-                         
+   */                       
             default:
                 break;
         }
@@ -55,7 +55,11 @@ export default function User() {
 
     const onClick = (e) => {
 
-        SetArquivo(formData.get("file"))
+
+        e.preventDefault()
+
+    
+       //  SetArquivo(formData.get("file"))
 
          let user = {
             empresa,
@@ -66,9 +70,30 @@ export default function User() {
             ie,
             endereco,
             username:"admin40",
-            arquivo
+           // arquivo: formData.get("file")
         }
 
+//        formData.append('user',user);    
+
+
+
+
+        let url =  'http://localhost:8082/api/caduser' 
+
+        axios.post(url, user)
+        
+        .then((response) => {    
+            this.props.history.push("http://localhost:3000/listusers");
+
+        })
+        .catch((err) => {
+
+            alert("Erro ao cadastrar usuário " + err)
+        }) 
+
+        
+
+   /*     
      
           let url =  'http://localhost:8082/api/caduser' 
           //+  this.state.username +  '&password=' 
@@ -76,7 +101,7 @@ export default function User() {
         axios.post(url,user)
            .then((response) => {    
 
-            localStorage.removeItem( "token" )       
+             localStorage.removeItem( "token" )       
              localStorage.setItem( "token", response.data.token );   
              this.props.history.push("/cadusers");
             })
@@ -84,7 +109,7 @@ export default function User() {
 
                 alert("Erro ao cadastrar usuário " + err)
             }) 
-
+ */
 
 
 
@@ -105,7 +130,7 @@ export default function User() {
                         <TextField variant="outlined" type="text" label="CNPJ" fullWidth margin="normal" name="cnpj" value={cnpj} onChange={onChange}/>
                         <TextField variant="outlined" type="text" label="IE" fullWidth margin="normal" name="ie" value={ie} onChange={onChange}/>
                         <TextField variant="outlined" type="text" label="Endereço" fullWidth margin="normal" name="endereco" value={endereco} onChange={onChange}/>
-                        <TextField variant="outlined" type="file" label="Arquivo" fullWidth margin="normal" name="arquivo" value={arquivo} onChange={onChange}/>
+                        {/* <TextField variant="outlined" type="file" label="Arquivo" fullWidth margin="normal" name="arquivo" value={arquivo} onChange={onChange}/> */}
 
  
                         <Button variant="contained" color="secondary" onClick={onClick}>Cadastrar</Button>

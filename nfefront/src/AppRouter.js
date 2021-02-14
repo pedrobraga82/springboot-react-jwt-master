@@ -3,6 +3,11 @@ import LoginComponent from './Components/Login/LoginComponent';
 import FormNFE from './Components/NFE/FormNFE';
 import User from './Components/User/User';
 import UserList from './Components/User/UserList';
+import UserEdit from './Components/User/UserEdit';
+
+
+
+
 
 const AppRouter = () => {
     return(
@@ -12,8 +17,7 @@ const AppRouter = () => {
                         <Route path="/nfeview" exact component={FormNFE} />
                         <Route path="/cadusers" exact component={User} />
                         <Route path="/listusers" exact component={UserList} />
-
-                      
+                        <Route path="/edituser/:id" exact component={UserEdit} />
                     </Switch>
             </Router>
     )

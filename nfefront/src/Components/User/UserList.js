@@ -3,12 +3,16 @@ import Header from '../Header';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
-import UserEdit from './UserEdit'
 import Modal from 'react-modal';
-
+import { Redirect } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import TextField from '@material-ui/core/TextField';
+import AttachFileIcon from '@material-ui/icons/AttachFile';
 
 export default function UserList() {
   const { useState } = React;
+  const history = useHistory();
 
   
 
@@ -26,37 +30,53 @@ export default function UserList() {
     
   ]);
 
-  const [users,SetUsers] = useState("")
+  const [users,SetUsers] = useState("");
+  const [arquivo,SetArquivo] = useState(undefined);
 
 
-  
-  
+  function EditUser(e) {
 
-  function EditUser() {
+      const ie = e.target.value;
+      const user = users.filter((e) => {
+        //alert(ie)  
+        return e.ie === ie
+      });
 
+      history.push(`/edituser/${JSON.stringify(user[0].id)}`) 
 
-
-    <div className="row">
-
-            <Modal
-         
-         
-            contentLabel="Example Modal"
-            >
-
-
-              <p>kdsfjds</p>    
-
-
-
-            </Modal>
-            
-        </div>
-
-
-    
   } 
 
+  function CadCert(e) {
+
+    e.preventDefault()
+
+    
+    const ie = e.target.name;
+      
+    const user = users.filter((e) => {
+          
+          return e.ie === ie
+        });
+
+        let formData = new FormData();
+        formData.append("file",e.target.files[0],`${ie}.txt`)
+        formData.append("id",user[0].id);
+    let url =  `http://localhost:8082/api/caduser/file/${user[0].id}`
+    //  let url =  'http://localhost:8082/api/caduser/file/' 
+        fetch(url, { 
+            method: 'POST',
+            body: formData
+          }).then(
+              //response => response.json();
+
+              )
+          .then(result => console.log('Files successfully uploaded!'))
+          .catch(error => console.log('error occurred!')); 
+        
+
+
+
+  }
 
 
    function Dados() {
@@ -70,9 +90,19 @@ export default function UserList() {
             <td>{result.empresa} </td> 
             <td> {result.cnpj} </td> 
             <td> {result.ie}</td> 
-            <Button variant="secondary" size="sm" onClick={EditUser}>
+            <Button variant="secondary" value={result.ie} size="sm" onClick={EditUser}>
               Editar
            </Button>
+         
+{/*           <TextField variant="outlined" type="file" label="Arquivo" 
+               margin="dense" name="arquivo" value={arquivo}                        
+                 onChange={CadCert}/>  */} 
+             
+          <input type="file" name={result.ie} size="sm" onChange={CadCert}>
+
+          </input>
+
+           
          </tr> ) 
        
 

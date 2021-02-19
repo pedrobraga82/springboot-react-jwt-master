@@ -4,6 +4,7 @@ import 'materialize-css';
 import TableNFE from './TableNFE';
 import ExportExcel from '../ExportExcel';
 import Header from '../Header';
+import Table from 'react-bootstrap/Table'
 
 export default function FormNFE() {
 
@@ -11,7 +12,7 @@ const  [cnpj,Setcnpj] =  useState("");
 const  [texto,SetTexto] = useState("");
 const  [dados,SetDados] = useState([{}]);
 
-const token = localStorage.getItem('token');
+const token = 'jfhsdjklfhjsdl' //localStorage.getItem('token');
 const username = localStorage.getItem('usuario');
 
 
@@ -20,11 +21,13 @@ useEffect(() => {
   let vetordados = {};
   let arraydados = [{}];
 
+  
   if (texto != null) {
 
     if (texto != "") { 
-      let i =0;
-      for (i=0; i < texto.length - 2; i++) {
+
+
+      for (let i=0; i < texto.length -2; i++) {
 
         let nfes = JSON.parse(texto[i])
 
@@ -68,6 +71,7 @@ useEffect(() => {
  
 const handleSubmit = (event) => {
 
+
            axios.get(`http://localhost:8082/nfe/${cnpj}`)
         .then(function (response) {
             SetTexto(response.data);
@@ -86,7 +90,6 @@ const handleSubmit = (event) => {
         Setcnpj(e.target.value);
     }
 
-    if (token != null) {
 
         return (
             <div>
@@ -109,28 +112,26 @@ const handleSubmit = (event) => {
                 <br></br>
 
                 <div>
-      
-                {/*    <textarea value={dados && dados.length}></textarea> 
-                  <br></br>  */}
 
-                      <table class="responsive-table">
+                <Table striped bordered hover variant="dark">
                         <thead>
                           <tr>
                                 <th>Chave</th>
                                 <th>Data Emissão</th>
-                                <th>Número</th>
-                                <th>Série</th>
-                                <th>Tipo</th> 
+                              {/*  <th>Número</th> */}
                                 <th>Valor</th>
-                                <th>Emitente CNPJ</th>
+                       {/*          <th>Série</th>
+                                <th>Tipo</th> 
+                                 <th>Valor</th>
+                                <th>Emitente CNPJ</th> */}
                                 <th>Emitente</th>
-                                <th>Emitente IE</th>
+                              {/*  <th>Emitente IE</th> */}
                                 <th>Emitente UF</th> 
-                                <th>Destinatário CNPJ</th> 
+{/*                                 <th>Destinatário CNPJ</th> 
                                 <th>Destinatário</th>
                                 <th>Destinarário IE</th>
                                 <th>Destinatário UF</th>
-                          </tr>
+ */}                          </tr>
                         </thead>
                         <tbody>
 
@@ -140,19 +141,20 @@ const handleSubmit = (event) => {
                                     const {
                                       chaveNfe,
                                       dataemissao,
-                                      numeroprotocolo,
-                                      tipo,
+//                                      numeroprotocolo,
+//                                      tipo,
                                       valor,
-                                      status,
-                                      emitentecnpj,
+//                                      status,
+//                                      emitentecnpj,
                                       emitente,
-                                      emitenteIE,
+//                                      emitenteIE,
                                       emitenteUF,
-                                      destinatario,
+/*                                       destinatario,
                                       destinatariocnpj,
                                       destinatarioIE,
                                       destinatarioUF
-                                    } = result;
+ */                          
+                                  } = result;
 
                                     return(
                                       <tr>
@@ -160,19 +162,19 @@ const handleSubmit = (event) => {
                                         <td>{new Date(dataemissao).getDay() + 
                                           "/" + new Date(dataemissao).getMonth() +
                                           "/" + new Date(dataemissao).getFullYear() }</td>
-                                        <td>{numeroprotocolo}</td>
-                                        <td>{tipo}</td>
+                        {/*                 <td>{numeroprotocolo}</td>
+                                        <td>{tipo}</td> */}
                                         <td>{valor}</td> 
-                                        <td>{status}</td> 
+{/*                                         <td>{status}</td> 
                                         <td>{emitentecnpj}</td> 
-                                        <td>{emitente}</td> 
-                                        <td>{emitenteIE}</td> 
-                                        <td>{emitenteUF}</td> 
-                                        <td>{destinatariocnpj}</td> 
+ */}                                        <td>{emitente}</td> 
+{/*                                         <td>{emitenteIE}</td> 
+ */}                                        <td>{emitenteUF}</td> 
+{/*                                         <td>{destinatariocnpj}</td> 
                                         <td>{destinatario}</td> 
                                         <td>{destinatarioIE}</td> 
                                         <td>{destinatarioUF}</td> 
-
+ */}
                                       </tr>
                                     )
                                     
@@ -180,7 +182,7 @@ const handleSubmit = (event) => {
                             }
       
                   </tbody> 
-                </table>
+                </Table>
                     <ExportExcel dataSet={dados && dados}/>   
                 </div>
 
@@ -189,13 +191,6 @@ const handleSubmit = (event) => {
                           
         )
 
-    }
-    else {
-
-      return (
-        <div>
-          <h3>Acesso não autorizado</h3>
-        </div>
-      )
-    }
+   
+        
 }    

@@ -36,10 +36,10 @@ export default function UserList() {
 
   function EditUser(e) {
 
-      const ie = e.target.value;
+      const cnpj = e.target.value;
       const user = users.filter((e) => {
         //alert(ie)  
-        return e.ie === ie
+        return e.cnpj === cnpj
       });
 
       history.push(`/edituser/${JSON.stringify(user[0].id)}`) 
@@ -51,24 +51,23 @@ export default function UserList() {
     e.preventDefault()
 
     
-    const ie = e.target.name;
+    const cnpj = e.target.name;
       
     const user = users.filter((e) => {
           
-          return e.ie === ie
+          return e.cnpj === cnpj
         });
 
         let formData = new FormData();
-        formData.append("file",e.target.files[0],`${ie}.txt`)
+        formData.append("file",e.target.files[0],cnpj)
         formData.append("id",user[0].id);
     let url =  `http://localhost:8082/api/caduser/file/${user[0].id}`
-    //  let url =  'http://localhost:8082/api/caduser/file/' 
         fetch(url, { 
             method: 'POST',
             body: formData
           }).then(
               //response => response.json();
-
+              alert('')
               )
           .then(result => console.log('Files successfully uploaded!'))
           .catch(error => console.log('error occurred!')); 
@@ -90,7 +89,7 @@ export default function UserList() {
             <td>{result.empresa} </td> 
             <td> {result.cnpj} </td> 
             <td> {result.ie}</td> 
-            <Button variant="secondary" value={result.ie} size="sm" onClick={EditUser}>
+            <Button variant="secondary" value={result.cnpj} size="sm" onClick={EditUser}>
               Editar
            </Button>
          
@@ -98,7 +97,7 @@ export default function UserList() {
                margin="dense" name="arquivo" value={arquivo}                        
                  onChange={CadCert}/>  */} 
              
-          <input type="file" name={result.ie} size="sm" onChange={CadCert}>
+          <input type="file" name={result.cnpj} size="sm" onChange={CadCert}>
 
           </input>
 
@@ -123,6 +122,8 @@ export default function UserList() {
       .then((response) => {    
             let data = response.data;
             let dados = [{}]
+
+
           data.forEach(obj => {
             dados.push(obj)
           })

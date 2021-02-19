@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Header from '../Header';
 import axios from 'axios';
+import { FormControl } from '@material-ui/core';
 
 
 export default function User() {
@@ -16,6 +17,9 @@ export default function User() {
     const [ie,SetIe] = useState("");
     const [endereco,SetEndereco] = useState("");
     const [role,SetRole] = useState("USER");
+    const [senhacert,SetSenhaCert] = useState("");
+    const [username,SetUsername] = useState("");
+    
 //    const [arquivo,SetArquivo] = useState(undefined);
 //    let formData = new FormData();
 
@@ -36,30 +40,26 @@ export default function User() {
                 break;
             case "ie":
                SetIe(e.target.value)
-                  break;              
+                  break;           
+            case "senhacert":
+                SetSenhaCert(e.target.value)   
+                break;
+            case "username":
+                SetUsername(e.target.value)   
+                break;              
             case "endereco":
                SetEndereco(e.target.value)
-                break;     
-  /*           case "arquivo":
-               formData.append("file",e.target.files[0],`${cnpj}.txt`)
-                break;     
-   */                       
+                break;                          
             default:
                 break;
         }
-
-
 
     }
 
 
     const onClick = (e) => {
 
-
         e.preventDefault()
-
-    
-       //  SetArquivo(formData.get("file"))
 
          let user = {
             empresa,
@@ -69,14 +69,8 @@ export default function User() {
             password,
             ie,
             endereco,
-            username:"admin40",
-           // arquivo: formData.get("file")
+            username:username,
         }
-
-//        formData.append('user',user);    
-
-
-
 
         let url =  'http://localhost:8082/api/caduser' 
 
@@ -91,27 +85,7 @@ export default function User() {
             alert("Erro ao cadastrar usuário " + err)
         }) 
 
-        
-
-   /*     
-     
-          let url =  'http://localhost:8082/api/caduser' 
-          //+  this.state.username +  '&password=' 
-          //+ base64.encode(utf8.encode(this.state.password))    
-        axios.post(url,user)
-           .then((response) => {    
-
-             localStorage.removeItem( "token" )       
-             localStorage.setItem( "token", response.data.token );   
-             this.props.history.push("/cadusers");
-            })
-            .catch((err) => {
-
-                alert("Erro ao cadastrar usuário " + err)
-            }) 
- */
-
-
+    
 
     }
 
@@ -122,19 +96,22 @@ export default function User() {
             <React.Fragment>
   
                 <Container maxWidth="xs">
+                    <div>
                     <Typography variant="h4" style={styles.center}>Cadastro de Usuários</Typography>
-                    <form>
-                        <TextField variant="outlined" type="text" label="Empresa" fullWidth margin="normal" name="empresa" value={empresa} onChange={onChange}/>
-
-                        <TextField variant="outlined" type="password" label="PASSWORD" fullWidth margin="normal" name="password" value={password} onChange={onChange}/>
-                        <TextField variant="outlined" type="text" label="CNPJ" fullWidth margin="normal" name="cnpj" value={cnpj} onChange={onChange}/>
-                        <TextField variant="outlined" type="text" label="IE" fullWidth margin="normal" name="ie" value={ie} onChange={onChange}/>
-                        <TextField variant="outlined" type="text" label="Endereço" fullWidth margin="normal" name="endereco" value={endereco} onChange={onChange}/>
+                        <FormControl>
+                        <TextField variant="outlined" type="text" label="Empresa" fullWidth  size="small" margin="dense" name="empresa" value={empresa} onChange={onChange}/>
+                        <TextField variant="outlined" type="text" label="Username" fullWidth margin="dense" name="username" value={username} onChange={onChange}/>
+                        <TextField variant="outlined" type="password" label="PASSWORD" fullWidth margin="dense" name="password" value={password} onChange={onChange}/>
+                        <TextField variant="outlined" type="text" label="CNPJ" fullWidth margin="dense" name="cnpj" value={cnpj} onChange={onChange}/>
+                        <TextField variant="outlined" type="text" label="IE" fullWidth margin="dense" name="ie" value={ie} onChange={onChange}/>
+                        <TextField variant="outlined" type="text" label="Endereço" fullWidth margin="dense" name="endereco" value={endereco} onChange={onChange}/>
                         {/* <TextField variant="outlined" type="file" label="Arquivo" fullWidth margin="normal" name="arquivo" value={arquivo} onChange={onChange}/> */}
+                        <TextField variant="outlined" type="text" label="Senha Certificado" fullWidth margin="dense" name="senhacert" value={senhacert} onChange={onChange}/>
 
  
                         <Button variant="contained" color="secondary" onClick={onClick}>Cadastrar</Button>
-                    </form>
+                        </FormControl>
+                    </div>
                 </Container>
             </React.Fragment>
   

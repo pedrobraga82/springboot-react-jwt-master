@@ -58,13 +58,14 @@
          let url =  'http://localhost:8082/api/authentication?username=' + this.state.username +  '&password=' + base64.encode(utf8.encode(this.state.password))    
          axios.post(url)
             .then((response) => {    
- 
+
              localStorage.removeItem( "token" )       
-              localStorage.setItem( "token", response.data.token );   
-              this.props.history.push("/cadusers");
+              localStorage.setItem( "token", response.data.token );
+              localStorage.setItem( "usuario", this.state.username );   
+              this.props.history.push("/nfeview");
              })
             .catch((err) => {
-              alert('fhdjgkdl')
+              alert('Erro na autenticação')
             })  }
  
       login = (e) => {

@@ -21,10 +21,86 @@ useEffect(() => {
   let vetordados = {};
   let arraydados = [{}];
 
-  
+  //let t = "<resNFe xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" versao=\"1.00\" xmlns=\"http://www.portalfiscal.inf.br/nfe\"><chNFe>41210211436073000147550010001650891857957586</chNFe><CNPJ>11436073000147</CNPJ><xNome>Econet Publicacoes Periodicas Ltda</xNome><IE>9083324829</IE><dhEmi>2021-02-08T00:00:00-03:00</dhEmi><tpNF>1</tpNF><vNF>273.48</vNF><digVal>g5VYeLLke5HS8yti0AaivhVEplQ=</digVal><dhRecbto>2021-02-08T11:11:04-03:00</dhRecbto><nProt>141210027215401</nProt><cSitNFe>1</cSitNFe></resNFe>";
+
+
   if (texto != null) {
 
-    if (texto != "") { 
+      for (let i=0; i < texto.length ; i++) {
+
+        let t = texto[i]
+        
+
+        let cnpj = t.substring(
+            t.indexOf("<CNPJ>") , 
+            t.lastIndexOf("</CNPJ>")
+          ).split(">")[1];
+
+          let chnfe = t.substring(
+            t.indexOf("<chNFe>") , 
+            t.lastIndexOf("</chNFe>")
+          ).split(">")[1];
+
+          let ie = t.substring(
+              t.indexOf("<IE>") , 
+              t.lastIndexOf("</IE>")
+            ).split(">")[1];
+
+
+            let nome = t.substring(
+              t.indexOf("<xNome>") , 
+              t.lastIndexOf("</xNome>")
+            ).split(">")[1];
+          
+            let dataemissao = t.substring(
+              t.indexOf("<dhEmi>") , 
+              t.lastIndexOf("</dhEmi>")
+            ).split(">")[1];
+          
+          
+            let valor = t.substring(
+                t.indexOf("<vNF>") , 
+                t.lastIndexOf("</vNF>")
+              ).split(">")[1];
+          
+              let datarecebto = t.substring(
+                t.indexOf("<dhRecbto>") , 
+                t.lastIndexOf("</dhRecbto>")
+              ).split(">")[1];
+
+              let tiponf = t.substring(
+                t.indexOf("<tpNF>") , 
+                t.lastIndexOf("</tpNF>")
+              ).split(">")[1];
+
+         vetordados = {
+
+          "cnpj": cnpj,
+          "chnfe": chnfe,
+          "ie": ie,
+          "tiponf": tiponf,
+          "datarecto": datarecebto,
+          "nome": nome,
+          "valor": valor,
+          "dataemissao": dataemissao
+        }      
+
+        arraydados.push(vetordados)
+
+
+      }
+
+    }         
+
+
+    SetDados(arraydados)
+  //JSON.stringify(u.nfeProc.NFe.infNFe.ide.natOp)
+  /*
+  if (texto != null) {
+
+  
+    let nfes = JSON.parse(texto[0])
+
 
 
       for (let i=0; i < texto.length -2; i++) {
@@ -55,7 +131,6 @@ useEffect(() => {
           arraydados.push(vetordados)
 
 
-         }
 
 
 
@@ -63,7 +138,8 @@ useEffect(() => {
 
   }
   SetDados(arraydados)
-
+ */
+  
   return () => {
     //
   }
@@ -71,10 +147,12 @@ useEffect(() => {
  
 const handleSubmit = (event) => {
 
+  event.preventDefault();
 
            axios.get(`http://localhost:8082/nfe/${cnpj}`)
         .then(function (response) {
             SetTexto(response.data);
+
 
           })
           .catch(function (error) {
@@ -82,7 +160,6 @@ const handleSubmit = (event) => {
             alert(error);
           }); 
 
-    event.preventDefault();
     }
 
     const handleChange = (e) => {
@@ -110,7 +187,8 @@ const handleSubmit = (event) => {
                     </div>
                 </div>
                 <br></br>
-
+                <textarea value={texto}>{texto && texto}</textarea>
+                <br></br>
                 <div>
 
                 <Table striped bordered hover variant="dark">
@@ -125,9 +203,9 @@ const handleSubmit = (event) => {
                                  <th>Valor</th>
                                 <th>Emitente CNPJ</th> */}
                                 <th>Emitente</th>
-                              {/*  <th>Emitente IE</th> */}
+                              {/*  <th>Emitente IE</th> 
                                 <th>Emitente UF</th> 
-{/*                                 <th>Destinatário CNPJ</th> 
+                                 <th>Destinatário CNPJ</th> 
                                 <th>Destinatário</th>
                                 <th>Destinarário IE</th>
                                 <th>Destinatário UF</th>
@@ -139,21 +217,11 @@ const handleSubmit = (event) => {
                                   (result) => {
                                                                   
                                     const {
-                                      chaveNfe,
-                                      dataemissao,
-//                                      numeroprotocolo,
-//                                      tipo,
+                                      chnfe: chaveNfe,
+                                      dataemissao ,
                                       valor,
-//                                      status,
-//                                      emitentecnpj,
-                                      emitente,
-//                                      emitenteIE,
-                                      emitenteUF,
-/*                                       destinatario,
-                                      destinatariocnpj,
-                                      destinatarioIE,
-                                      destinatarioUF
- */                          
+                                       nome: emitente
+                                                             
                                   } = result;
 
                                     return(
@@ -162,19 +230,9 @@ const handleSubmit = (event) => {
                                         <td>{new Date(dataemissao).getDay() + 
                                           "/" + new Date(dataemissao).getMonth() +
                                           "/" + new Date(dataemissao).getFullYear() }</td>
-                        {/*                 <td>{numeroprotocolo}</td>
-                                        <td>{tipo}</td> */}
                                         <td>{valor}</td> 
-{/*                                         <td>{status}</td> 
-                                        <td>{emitentecnpj}</td> 
- */}                                        <td>{emitente}</td> 
-{/*                                         <td>{emitenteIE}</td> 
- */}                                        <td>{emitenteUF}</td> 
-{/*                                         <td>{destinatariocnpj}</td> 
-                                        <td>{destinatario}</td> 
-                                        <td>{destinatarioIE}</td> 
-                                        <td>{destinatarioUF}</td> 
- */}
+                                       <td>{emitente}</td> 
+
                                       </tr>
                                     )
                                     
@@ -183,7 +241,7 @@ const handleSubmit = (event) => {
       
                   </tbody> 
                 </Table>
-                    <ExportExcel dataSet={dados && dados}/>   
+                    <ExportExcel dataSet={texto && texto}/>   
                 </div>
 
             </div>

@@ -89,17 +89,20 @@ export default function UserList() {
             <td>{result.empresa} </td> 
             <td> {result.cnpj} </td> 
             <td> {result.ie}</td> 
+            <td>
             <Button variant="secondary" value={result.cnpj} size="sm" onClick={EditUser}>
               Editar
            </Button>
-         
+           </td>
 {/*           <TextField variant="outlined" type="file" label="Arquivo" 
                margin="dense" name="arquivo" value={arquivo}                        
                  onChange={CadCert}/>  */} 
-             
-          <input type="file" name={result.cnpj} size="sm" onChange={CadCert}>
+            <td>
+              <input type="file" id ="botao" name={result.cnpj} size="sm"  onChange={CadCert}>
+              </input>
+              </td>     
 
-          </input>
+
 
            
          </tr> ) 
@@ -145,13 +148,13 @@ export default function UserList() {
 
   return (
 
-    <div>
+    <div style={styles.center}>
       <Header />
       <br></br>
       <br></br>
       <br></br>
       
-      <Table striped bordered hover variant="dark">
+      <Table striped bordered hover variant="dark" >
       <thead>
         <tr>
           <th>Username</th>
@@ -175,3 +178,15 @@ export default function UserList() {
   )
 }
 
+
+
+const styles= {
+  center: {
+    //margin: 'auto',
+    width: '90%',
+    border: '3px solid green',
+  //  padding: '10px'
+  }
+  
+  
+}

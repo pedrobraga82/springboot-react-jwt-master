@@ -4,6 +4,7 @@ import FormNFE from './Components/NFE/FormNFE';
 import User from './Components/User/User';
 import UserList from './Components/User/UserList';
 import UserEdit from './Components/User/UserEdit';
+import NFEList from './Components/NFE/NFEList';
 
 
 
@@ -18,6 +19,7 @@ const AppRouter = () => {
                         <Route path="/cadusers" exact component={User} />
                         <Route path="/listusers" exact component={UserList} />
                         <Route path="/edituser/:id" exact component={UserEdit} />
+                        <Route path="/nfelist" exact component={NFEList} />
                     </Switch>
             </Router>
     )

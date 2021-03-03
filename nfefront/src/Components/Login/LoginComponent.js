@@ -59,10 +59,20 @@
          axios.post(url)
             .then((response) => {    
 
+                let variavel = response.data;
+
+                let token = variavel.split("token:")[1].split(",")[0]
+                let username = variavel.split("username:")[1].split(",")[0]
+                let role = variavel.split("role:")[1].split(",")[0]
+
+
              localStorage.removeItem( "token" )       
-              localStorage.setItem( "token", response.data.token );
-              localStorage.setItem( "usuario", this.state.username );   
-              this.props.history.push("/nfeview");
+              localStorage.setItem( "token", token );
+              localStorage.setItem( "username", username );
+              localStorage.setItem( "role", role );
+            
+              //localStorage.setItem( "usuario", this.state.username );   
+              //this.props.hhistory.push("/nfeview");
              })
             .catch((err) => {
               alert('Erro na autenticação')

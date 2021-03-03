@@ -7,6 +7,7 @@ import Container from '@material-ui/core/Container';
 import Header from '../Header';
 import axios from 'axios';
 import { FormControl } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 
 
 export default function User() {
@@ -94,11 +95,10 @@ export default function User() {
             <Header />
 
             <React.Fragment>
-  
+                <div>
                 <Container maxWidth="xs">
-                    <div>
-                    <Typography variant="h4" style={styles.center}>Cadastro de Usuários</Typography>
-                        <FormControl>
+                    <Typography variant="h4" >Cadastro de Usuários</Typography>
+                        <FormControl style={styles.center}>
                         <TextField variant="outlined" type="text" label="Empresa" fullWidth  size="small" margin="dense" name="empresa" value={empresa} onChange={onChange}/>
                         <TextField variant="outlined" type="text" label="Username" fullWidth margin="dense" name="username" value={username} onChange={onChange}/>
                         <TextField variant="outlined" type="password" label="PASSWORD" fullWidth margin="dense" name="password" value={password} onChange={onChange}/>
@@ -109,10 +109,10 @@ export default function User() {
                         <TextField variant="outlined" type="text" label="Senha Certificado" fullWidth margin="dense" name="senhacert" value={senhacert} onChange={onChange}/>
 
  
-                        <Button variant="contained" color="secondary" onClick={onClick}>Cadastrar</Button>
+                        <Button variant="contained" color="primary" onClick={onClick}>Cadastrar</Button>
                         </FormControl>
-                    </div>
                 </Container>
+                </div>
             </React.Fragment>
   
 
@@ -130,6 +130,6 @@ const styles= {
     notification: {
         display: 'flex',
         justifyContent: 'center',
-        color: '#dc3545'
+        color: '#00008B'
     }
 }

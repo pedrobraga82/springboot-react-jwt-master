@@ -5,6 +5,9 @@ import TableNFE from './TableNFE';
 import ExportExcel from '../ExportExcel';
 import Header from '../Header';
 import Table from 'react-bootstrap/Table'
+import SaveIcon from '@material-ui/icons/Save';
+import Button from '@material-ui/core/Button';
+
 
 export default function FormNFE() {
 
@@ -31,7 +34,7 @@ useEffect(() => {
         let t = texto[i]
         
 
-        let cnpj = t.substring(
+        let cnpjremetente = t.substring(
             t.indexOf("<CNPJ>") , 
             t.lastIndexOf("</CNPJ>")
           ).split(">")[1];
@@ -82,7 +85,8 @@ useEffect(() => {
           "datarecto": datarecebto,
           "nome": nome,
           "valor": valor,
-          "dataemissao": dataemissao
+          "dataemissao": dataemissao,
+          "cnpjremetente": cnpjremetente
         }      
 
         arraydados.push(vetordados)
@@ -94,51 +98,6 @@ useEffect(() => {
 
 
     SetDados(arraydados)
-  //JSON.stringify(u.nfeProc.NFe.infNFe.ide.natOp)
-  /*
-  if (texto != null) {
-
-  
-    let nfes = JSON.parse(texto[0])
-
-
-
-      for (let i=0; i < texto.length -2; i++) {
-
-        let nfes = JSON.parse(texto[i])
-
-        vetordados = {
-          "chaveNfe":(JSON.stringify(
-            texto[i].substring(
-              texto[i].indexOf("chNFe\"\:") + 7,
-              texto[i].indexOf(",\"xMotivo\"")
-            ))),
-          "dataemissao": nfes.nfeProc.protNFe.infProt.dhRecbto,
-          "numeroprotocolo": nfes.nfeProc.protNFe.infProt.nProt,        
-          "tipo": nfes.nfeProc.NFe.infNFe.ide.natOp,
-          "valor": nfes.nfeProc.NFe.infNFe.pag.detPag.vPag,
-          "status": nfes.nfeProc.protNFe.infProt.xMotivo,
-          "emitentecnpj": nfes.nfeProc.NFe.infNFe.emit.CNPJ,
-          "emitente": nfes.nfeProc.NFe.infNFe.emit.CNPJ,
-          "emitenteIE": nfes.nfeProc.NFe.infNFe.emit.IE,
-          "emitenteUF": nfes.nfeProc.NFe.infNFe.emit.enderEmit.UF,
-          "destinatario": nfes.nfeProc.NFe.infNFe.dest.xNome,
-          "destinatariocnpj": nfes.nfeProc.NFe.infNFe.dest.CNPJ,
-          "destinatarioIE": nfes.nfeProc.NFe.infNFe.dest.IE,
-          "destinatarioUF": nfes.nfeProc.NFe.infNFe.dest.enderDest.UF 
-        }  
-          
-          arraydados.push(vetordados)
-
-
-
-
-
-        }
-
-  }
-  SetDados(arraydados)
- */
   
   return () => {
     //
@@ -167,6 +126,32 @@ const handleSubmit = (event) => {
         Setcnpj(e.target.value);
     }
 
+    const SaveNfe = (e) => {
+
+        e.preventDefault()
+
+      let url =  'http://localhost:8082/cadnfe' 
+      let chave = e.target.id;
+      let nf = dados.filter(nfe =>  nfe.chnfe == chave )
+        
+        //"41201211436073000147550010001425711047416300" ) 
+
+
+
+
+       axios.post(url, nf[0])
+          
+      .then((response) => {    
+              //this.props.history.push("http://localhost:3000/listusers");
+      
+        })
+          .catch((err) => {
+              alert("Erro ao cadastrar Nfe " + err)
+          }) 
+ 
+
+    }
+
 
         return (
             <div>
@@ -187,8 +172,8 @@ const handleSubmit = (event) => {
                     </div>
                 </div>
                 <br></br>
-                <textarea value={texto}>{texto && texto}</textarea>
-                <br></br>
+{/*                 <textarea value={JSON.stringify(dados)}>{dados && dados}</textarea>
+ */}                <br></br>
                 <div>
 
                 <Table striped bordered hover variant="dark">
@@ -232,7 +217,10 @@ const handleSubmit = (event) => {
                                           "/" + new Date(dataemissao).getFullYear() }</td>
                                         <td>{valor}</td> 
                                        <td>{emitente}</td> 
-
+                                       {/* <td><SaveIcon id={chaveNfe} name={chaveNfe} onClick={SaveNfe}></SaveIcon></td>     
+                                    */}
+                                       <td><input type="button" class="btn btn-info" id={chaveNfe}  value="Salvar Nota"  onClick={SaveNfe} /></td>     
+                                   
                                       </tr>
                                     )
                                     

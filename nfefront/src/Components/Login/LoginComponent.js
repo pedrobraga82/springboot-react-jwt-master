@@ -24,6 +24,8 @@
    },
  }));
  
+
+
  
  function Historico() {
  
@@ -61,18 +63,22 @@
 
                 let variavel = response.data;
 
+
                 let token = variavel.split("token:")[1].split(",")[0]
                 let username = variavel.split("username:")[1].split(",")[0]
-                let role = variavel.split("role:")[1].split(",")[0]
+                let role = variavel.split("role:")[1].split(",")[0].split('}')[0]
 
-
-             localStorage.removeItem( "token" )       
-              localStorage.setItem( "token", token );
-              localStorage.setItem( "username", username );
-              localStorage.setItem( "role", role );
+                /* localStorage.removeItem( "username" )       
+                localStorage.removeItem( "role" )       
+                localStorage.removeItem( "token" )       
+                 */
+                localStorage.setItem( "token", token );
+                localStorage.setItem( "username", username );
+                localStorage.setItem( "role", role );
             
-              //localStorage.setItem( "usuario", this.state.username );   
-              //this.props.hhistory.push("/nfeview");
+                 this.props.history.push("/menuadmin");
+
+              
              })
             .catch((err) => {
               alert('Erro na autenticação')
@@ -112,7 +118,7 @@
                          <Typography variant="h6" style={styles.notification}>{this.state.message}</Typography>
                          
  {/*                         <TextField type="text" label="USERNAME" fullWidth margin="normal" name="username" value={this.state.username} onChange={this.onChange}/>
-  */}                    <div>
+  */}                    <div styles={styles.center}>
                          <TextField
                          label="Username"
                          defaultValue="Username"

@@ -24,9 +24,6 @@ useEffect(() => {
   let vetordados = {};
   let arraydados = [{}];
 
-  //let t = "<resNFe xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" versao=\"1.00\" xmlns=\"http://www.portalfiscal.inf.br/nfe\"><chNFe>41210211436073000147550010001650891857957586</chNFe><CNPJ>11436073000147</CNPJ><xNome>Econet Publicacoes Periodicas Ltda</xNome><IE>9083324829</IE><dhEmi>2021-02-08T00:00:00-03:00</dhEmi><tpNF>1</tpNF><vNF>273.48</vNF><digVal>g5VYeLLke5HS8yti0AaivhVEplQ=</digVal><dhRecbto>2021-02-08T11:11:04-03:00</dhRecbto><nProt>141210027215401</nProt><cSitNFe>1</cSitNFe></resNFe>";
-
-
   if (texto != null) {
 
       for (let i=0; i < texto.length ; i++) {
@@ -82,10 +79,16 @@ useEffect(() => {
           "chnfe": chnfe,
           "ie": ie,
           "tiponf": tiponf,
-          "datarecto": datarecebto,
+         // "datarecto": datarecebto,
           "nome": nome,
           "valor": valor,
+          
+      /*     "dataemissao":  dataemissao.substring(8,10)
+              + "/" + dataemissao.substring(5,7)
+              +  "/" + dataemissao.substring(0,4), */
+
           "dataemissao": dataemissao,
+
           "cnpjremetente": cnpjremetente
         }      
 
@@ -130,6 +133,8 @@ const handleSubmit = (event) => {
 
         e.preventDefault()
 
+
+
       let url =  'http://localhost:8082/cadnfe' 
       let chave = e.target.id;
       let nf = dados.filter(nfe =>  nfe.chnfe == chave )
@@ -137,9 +142,8 @@ const handleSubmit = (event) => {
         //"41201211436073000147550010001425711047416300" ) 
 
 
-
-
-       axios.post(url, nf[0])
+        
+        axios.post(url, nf[0])
           
       .then((response) => {    
               //this.props.history.push("http://localhost:3000/listusers");
@@ -148,7 +152,7 @@ const handleSubmit = (event) => {
           .catch((err) => {
               alert("Erro ao cadastrar Nfe " + err)
           }) 
- 
+  
 
     }
 
@@ -212,9 +216,11 @@ const handleSubmit = (event) => {
                                     return(
                                       <tr>
                                         <td>{chaveNfe}</td>
-                                        <td>{new Date(dataemissao).getDay() + 
+{/*                                         <td>{new Date(dataemissao).getDay() + 
                                           "/" + new Date(dataemissao).getMonth() +
                                           "/" + new Date(dataemissao).getFullYear() }</td>
+ */}
+                                        <td>{dataemissao}</td>  
                                         <td>{valor}</td> 
                                        <td>{emitente}</td> 
                                        {/* <td><SaveIcon id={chaveNfe} name={chaveNfe} onClick={SaveNfe}></SaveIcon></td>     
